@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    username: 'db_user'
+    password: '8b3b91c7'
+    url: 'jdbc:mysql://localhost:3306/smart-hardware-shop'
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.MySQLDialect
+      current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
