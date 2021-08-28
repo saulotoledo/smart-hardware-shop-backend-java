@@ -15,8 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 /**
@@ -56,16 +56,18 @@ public class ProductsController {
      *
      * @param id The ID of the item to return.
      * @return The requested item.
-     * @throws EntityNotFoundException If the informed item was not found.
+     * @throws ResponseStatusException If the informed item was not found.
      */
     @SwaggerGetOne
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductDto getOne(
         @ApiParam("Id of the resource to be obtained.")
         @PathVariable("id") Long id
-    ) throws EntityNotFoundException {
+    ) throws ResponseStatusException {
         return modelMapper.map(
-            this.service.getOne(id).orElseThrow(() -> new EntityNotFoundException()),
+            this.service.getOne(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The entity was not found")
+            ),
             ProductDto.class
         );
     }
@@ -117,14 +119,14 @@ public class ProductsController {
      * Deletes an item.
      *
      * @param id The id of the item do delete.
-     * @throws EntityNotFoundException If the informed item was not found.
+     * @throws ResponseStatusException If the informed item was not found.
      */
     @SwaggerDelete
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void delete(
         @ApiParam("Id of the resource to be deleted.")
         @PathVariable("id") Long id
-    ) throws EntityNotFoundException {
+    ) throws ResponseStatusException {
         /*
           The DELETE section of the RFC 7231 (https://tools.ietf.org/html/rfc7231#section-4.3.5)
           does not comment on what should be done if the resource was not found. Considering that
@@ -132,7 +134,7 @@ public class ProductsController {
           found or not. However, we decided to inform the user that the resource was not found below.
         */
         if (!this.service.exists(id)) {
-            throw new EntityNotFoundException();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The entity was not found");
         }
         this.service.delete(id);
     }
