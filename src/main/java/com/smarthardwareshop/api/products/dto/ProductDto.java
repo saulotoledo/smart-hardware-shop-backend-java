@@ -14,6 +14,12 @@ import java.time.LocalDateTime;
 public class ProductDto extends ProductUpdateDto {
 
     /**
+     * The product's id.
+     */
+    @ApiModelProperty(example = "1")
+    private Long id;
+
+    /**
      * The product's creation date.
      */
     @ApiModelProperty(example = "2021-08-27T21:29:51.248Z")
