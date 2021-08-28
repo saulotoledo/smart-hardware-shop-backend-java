@@ -1,12 +1,28 @@
 spring:
   datasource:
-    username: 'db_user'
-    password: '8b3b91c7'
-    url: 'jdbc:mysql://localhost:3306/smart-hardware-shop'
+    username: "db_user"
+    password: "8b3b91c7"
+    url: "jdbc:mysql://localhost:3306/smart-hardware-shop"
 
   jpa:
     show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: "UTC"
     hibernate:
-      ddl-auto: none
-      dialect: org.hibernate.dialect.MySQLDialect
-      current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+      ddl-auto: "update"
+      dialect: "org.hibernate.dialect.MySQLDialect"
+      current_session_context_class: "org.springframework.orm.hibernate5.SpringSessionContext"
+
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+
+openapi:
+  title: "Smart Hardware Shop"
+  description: "A simple hardware shop API"
+  license: "MIT"
+  licenseUrl: "https://opensource.org/licenses/MIT"
+  version: "1.0.0"
