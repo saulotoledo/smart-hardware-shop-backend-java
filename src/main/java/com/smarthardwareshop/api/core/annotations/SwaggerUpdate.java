@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@ApiOperation("Updates a item (or creates it if it does not exist).")
+@ApiOperation("Updates an item (or creates it if it does not exist).")
 @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "OK"),
     @ApiResponse(responseCode = "201", description = "Created")

@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@ApiOperation("Removes a item.")
+@ApiOperation("Removes an item.")
 @ApiResponses(value = {
     @ApiResponse(responseCode = "204", description = "No Content"),
     @ApiResponse(

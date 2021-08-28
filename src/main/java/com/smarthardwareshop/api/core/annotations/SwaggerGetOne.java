@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@ApiOperation("Returns a specific item.")
+@ApiOperation("Returns a single item.")
 @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "OK"),
     @ApiResponse(
