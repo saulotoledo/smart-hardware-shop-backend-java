@@ -37,7 +37,7 @@ public class UserSaveDto {
     private Boolean enabled;
 
     /**
-     * The username of the user.
+     * The role of the user.
      */
     @ApiModelProperty(example = "ADMIN")
     private Role role;
