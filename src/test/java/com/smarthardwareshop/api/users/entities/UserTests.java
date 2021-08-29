@@ -35,7 +35,6 @@ public class UserTests {
         user.setUsername(newUser.getUsername());
         user.setEnabled(newUser.isEnabled());
         user.setPassword(newUser.getPassword());
-        user.setRole(newUser.getRole());
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
 
@@ -43,7 +42,6 @@ public class UserTests {
         assertTrue(savedUser.getUsername().equals(newUser.getUsername()));
         assertTrue(savedUser.isEnabled() == newUser.isEnabled());
         assertEquals(savedUser.getPassword(), newUser.getPassword());
-        assertTrue(savedUser.getRole().equals(newUser.getRole()));
         assertNotNull(savedUser.getCreatedAt());
         assertNotNull(savedUser.getUpdatedAt());
         assertTrue(LocalDateTime.now().compareTo(savedUser.getCreatedAt()) > 0);

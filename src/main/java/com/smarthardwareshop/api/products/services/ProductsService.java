@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -33,6 +34,16 @@ public class ProductsService {
             return this.repository.findByNameContaining(filter, pageable);
         }
         return this.repository.findAll(pageable);
+    }
+
+    /**
+     * Returns all items with the informed IDs.
+     *
+     * @param ids List of IDs to return.
+     * @return A page of products according to the informed specifications.
+     */
+    public List<Product> getAllIn(List<Long> ids) {
+        return this.repository.findAllById(ids);
     }
 
     /**

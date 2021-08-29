@@ -4,7 +4,10 @@ import com.smarthardwareshop.api.core.annotations.*;
 import com.smarthardwareshop.api.users.dto.UserDto;
 import com.smarthardwareshop.api.users.dto.UserSaveDto;
 import com.smarthardwareshop.api.users.dto.UserUpdateDto;
+import com.smarthardwareshop.api.users.entities.Admin;
+import com.smarthardwareshop.api.users.entities.Customer;
 import com.smarthardwareshop.api.users.entities.User;
+import com.smarthardwareshop.api.users.enums.Role;
 import com.smarthardwareshop.api.users.services.UsersService;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -54,8 +57,27 @@ public class UsersController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<UserDto> getMany(@RequestParam(required = false) String filter, Pageable pageable) {
         Page<User> usersPage = this.service.getMany(filter, pageable);
-        return usersPage.map(user -> modelMapper.map(user, UserDto.class));
+        return usersPage.map(user -> this.mapUserToUserDto(user));
     }
+
+    /**
+     * Maps User to UserDto.
+     * @param user The user to map.
+     * @return The resulting dto.
+     */
+    private UserDto mapUserToUserDto(User user) {
+        UserDto dto = modelMapper.map(user, UserDto.class);
+
+        // TODO: can we do the following transformation with modelMapper?
+        if (user instanceof Admin) {
+            dto.setRole(Role.ADMIN);
+        } else {
+            dto.setRole(Role.CUSTOMER);
+        }
+
+        return dto;
+    }
+
 
     /**
      * Returns a single item.
@@ -70,12 +92,9 @@ public class UsersController {
         @ApiParam("Id of the resource to be obtained.")
         @PathVariable("id") Long id
     ) throws ResponseStatusException {
-        return modelMapper.map(
-            this.service.getOne(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The entity was not found")
-            ),
-            UserDto.class
-        );
+        return this.mapUserToUserDto(this.service.getOne(id).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The entity was not found")
+        ));
     }
 
     /**
@@ -90,9 +109,14 @@ public class UsersController {
         @ApiParam("JSON representation of the resource to be saved.")
         @RequestBody @Valid UserSaveDto dto
     ) {
+        Class<? extends User> userClass = Customer.class;
+        if (dto.getRole().equals(Role.ADMIN)) {
+            userClass = Admin.class;
+        }
         dto.setPassword(this.passwordEncoder.encode(dto.getPassword()));
-        User savedUser = this.service.save(modelMapper.map(dto, User.class));
-        return modelMapper.map(savedUser, UserDto.class);
+        User savedUser = this.service.save(modelMapper.map(dto, userClass));
+
+        return this.mapUserToUserDto(savedUser);
     }
 
     /**
@@ -120,7 +144,7 @@ public class UsersController {
         }
 
         User savedUser = this.service.save(userToSave);
-        return new ResponseEntity<>(modelMapper.map(savedUser, UserDto.class), resultStatus);
+        return new ResponseEntity<>(this.mapUserToUserDto(savedUser), resultStatus);
     }
 
     /**
