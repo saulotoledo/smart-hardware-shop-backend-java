@@ -66,7 +66,7 @@ public class ProductsService {
     }
 
     /**
-     * Deletes an item form the database.
+     * Deletes an item from the database.
      * @param id The ID of the item to delete.
      */
     public void delete(Long id) {
