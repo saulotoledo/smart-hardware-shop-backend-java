@@ -1,12 +1,13 @@
 package com.smarthardwareshop.api.news.controllers;
 
+import com.smarthardwareshop.api.core.annotations.*;
 import com.smarthardwareshop.api.news.dto.NewsDto;
 import com.smarthardwareshop.api.news.dto.NewsSaveDto;
 import com.smarthardwareshop.api.news.dto.NewsUpdateDto;
 import com.smarthardwareshop.api.news.entities.News;
 import com.smarthardwareshop.api.news.services.NewsService;
-import com.smarthardwareshop.api.core.annotations.*;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/news")
 @RequiredArgsConstructor
+@Tag(name = "News")
 public class NewsController {
 
     /**
@@ -61,7 +63,7 @@ public class NewsController {
     @SwaggerGetOne
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public NewsDto getOne(
-        @ApiParam("Id of the resource to be obtained.")
+        @Parameter(description = "Id of the resource to be obtained.")
         @PathVariable("id") Long id
     ) throws ResponseStatusException {
         return modelMapper.map(
@@ -81,7 +83,7 @@ public class NewsController {
     @SwaggerSave
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public NewsDto save(
-        @ApiParam("JSON representation of the resource to be saved.")
+        @Parameter(description = "JSON representation of the resource to be saved.")
         @RequestBody @Valid NewsSaveDto dto
     ) {
         News savedNews = this.service.save(modelMapper.map(dto, News.class));
@@ -98,9 +100,9 @@ public class NewsController {
     @SwaggerUpdate
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<NewsDto> update(
-        @ApiParam("Id of the resource to be updated or created.")
+        @Parameter(description = "Id of the resource to be updated or created.")
         @PathVariable("id") Long id,
-        @ApiParam("JSON representation of the resource to be saved.")
+        @Parameter(description = "JSON representation of the resource to be saved.")
         @RequestBody @Valid NewsUpdateDto dto
     ) {
         HttpStatus resultStatus = HttpStatus.OK;
@@ -124,7 +126,7 @@ public class NewsController {
     @SwaggerDelete
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void delete(
-        @ApiParam("Id of the resource to be deleted.")
+        @Parameter(description = "Id of the resource to be deleted.")
         @PathVariable("id") Long id
     ) throws ResponseStatusException {
         /*

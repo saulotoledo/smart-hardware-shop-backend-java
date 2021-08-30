@@ -1,6 +1,6 @@
 package com.smarthardwareshop.api.core.annotations;
 
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@ApiOperation("Removes an item.")
+@Operation(description = "Removes an item.")
 @ApiResponses(value = {
     @ApiResponse(responseCode = "204", description = "No Content"),
     @ApiResponse(

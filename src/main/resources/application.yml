@@ -24,6 +24,26 @@ spring:
       pageable:
         one-indexed-parameters: true
 
+springdoc:
+  swagger-ui:
+    deepLinking: true
+    displayOperationId: false
+    defaultModelsExpandDepth: 1
+    defaultModelExpandDepth: 1
+    defaultModelRendering: "example"
+    displayRequestDuration: false
+    docExpansion: "list"
+    filter: false
+    operationsSorter: "alpha"
+    showExtensions: false
+    showCommonExtensions: false
+    tagsSorter: "alpha"
+    supportedSubmitMethods:
+      - "get"
+      - "put"
+      - "post"
+      - "delete"
+
 openapi:
   title: "Smart Hardware Shop"
   description: "A simple hardware shop API"

@@ -1,6 +1,6 @@
 package com.smarthardwareshop.api.products.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +21,7 @@ public class ProductSaveDto {
      */
     @NotEmpty
     @Size(min = 4, message = "The product name should have at least 4 characters")
-    @ApiModelProperty(example = "John Doe")
+    @Schema(example = "John Doe")
     private String name;
 
     /**
@@ -29,7 +29,7 @@ public class ProductSaveDto {
      */
     @NotEmpty
     @Size(min = 20, message = "The product description should have at least 20 characters")
-    @ApiModelProperty(example = "Lorem ipsum sit dolor amet")
+    @Schema(example = "Lorem ipsum sit dolor amet")
     private String description;
 
     /**
@@ -37,12 +37,12 @@ public class ProductSaveDto {
      */
     @NotNull
     @PositiveOrZero
-    @ApiModelProperty(example = "213.2")
+    @Schema(example = "213.2")
     private double price;
 
     /**
      * The image of the product.
      */
-    @ApiModelProperty(example = "http://www.some-fake-url.com/image.jpg")
+    @Schema(example = "http://www.some-fake-url.com/image.jpg")
     private String image;
 }

@@ -3,7 +3,7 @@ package com.smarthardwareshop.api.users.dto;
 import com.smarthardwareshop.api.core.validators.annotations.Unique;
 import com.smarthardwareshop.api.users.enums.Role;
 import com.smarthardwareshop.api.users.services.UsersService;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,20 +26,20 @@ public class UserSaveDto {
     @Size(min = 4, max = 50, message = "The username should have from 4 to 50 characters")
     @Pattern(regexp = "[a-zA-Z0-9-]+", message = "The username should only contain letters, numbers and '-'")
     @Unique(service = UsersService.class, fieldName = "username", message = "The informed username already exists")
-    @ApiModelProperty(example = "username")
+    @Schema(example = "username")
     private String username;
 
     /**
      * Informs if the user is enabled.
      */
     @NotNull
-    @ApiModelProperty(example = "true")
+    @Schema(example = "true")
     private Boolean enabled;
 
     /**
      * The role of the user.
      */
-    @ApiModelProperty(example = "ADMIN")
+    @Schema(example = "ADMIN")
     private Role role;
 
     /**
@@ -47,6 +47,6 @@ public class UserSaveDto {
      */
     @NotEmpty
     @Size(min = 8, message = "The password should have at least 8 characters")
-    @ApiModelProperty(example = "p@$$w0rd")
+    @Schema(example = "p@$$w0rd")
     private String password;
 }

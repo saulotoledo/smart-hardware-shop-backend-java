@@ -1,6 +1,6 @@
 package com.smarthardwareshop.api.news.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,18 +16,18 @@ public class NewsDto extends NewsUpdateDto {
     /**
      * The news's id.
      */
-    @ApiModelProperty(example = "1")
+    @Schema(example = "1")
     private Long id;
 
     /**
      * The news's creation date.
      */
-    @ApiModelProperty(example = "2021-08-27T21:29:51.248Z")
+    @Schema(example = "2021-08-27T21:29:51.248Z")
     private LocalDateTime createdAt;
 
     /**
      * The news's last modified date.
      */
-    @ApiModelProperty(example = "2021-08-27T21:29:51.248Z")
+    @Schema(example = "2021-08-27T21:29:51.248Z")
     private LocalDateTime updatedAt;
 }

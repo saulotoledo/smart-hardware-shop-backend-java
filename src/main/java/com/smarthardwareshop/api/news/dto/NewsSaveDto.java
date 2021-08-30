@@ -1,6 +1,6 @@
 package com.smarthardwareshop.api.news.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +22,7 @@ public class NewsSaveDto {
      */
     @NotEmpty
     @Size(min = 4, message = "The news title should have at least 4 characters")
-    @ApiModelProperty(example = "New XPTO computer")
+    @Schema(example = "New XPTO computer")
     private String title;
 
     /**
@@ -30,7 +30,7 @@ public class NewsSaveDto {
      */
     @NotEmpty
     @Size(min = 20, message = "The news description should have at least 20 characters")
-    @ApiModelProperty(example = "Lorem ipsum sit dolor amet")
+    @Schema(example = "Lorem ipsum sit dolor amet")
     private String description;
 
     /**
@@ -38,12 +38,12 @@ public class NewsSaveDto {
      */
     @NotNull
     @Future
-    @ApiModelProperty(example = "2021-08-27T21:29:51.248Z")
+    @Schema(example = "2021-08-27T21:29:51.248Z")
     private LocalDateTime expiryDate;
 
     /**
      * The image of the news.
      */
-    @ApiModelProperty(example = "http://www.some-fake-url.com/image.jpg")
+    @Schema(example = "http://www.some-fake-url.com/image.jpg")
     private String image;
 }

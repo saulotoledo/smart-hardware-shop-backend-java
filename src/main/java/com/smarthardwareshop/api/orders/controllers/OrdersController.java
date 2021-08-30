@@ -13,10 +13,11 @@ import com.smarthardwareshop.api.products.services.ProductsService;
 import com.smarthardwareshop.api.users.entities.Admin;
 import com.smarthardwareshop.api.users.entities.User;
 import com.smarthardwareshop.api.users.services.UsersService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -39,6 +40,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/users/{userId}/orders")
 @RequiredArgsConstructor
+@Tag(name = "Orders")
 public class OrdersController {
 
     /**
@@ -92,7 +94,7 @@ public class OrdersController {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public OrderDto getOne(
         @PathVariable("userId") Long userId,
-        @ApiParam("Id of the resource to be obtained.")
+        @Parameter(description = "Id of the resource to be obtained.")
         @PathVariable("id") Long id
     ) throws ResponseStatusException {
         this.validateCustomer(userId);
@@ -117,7 +119,7 @@ public class OrdersController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public OrderDto save(
         @PathVariable("userId") Long userId,
-        @ApiParam("JSON representation of the resource to be saved.")
+        @Parameter(description = "JSON representation of the resource to be saved.")
         @RequestBody @Valid OrderSaveDto dto
     ) throws ResponseStatusException {
         this.validateCustomer(userId);
@@ -141,9 +143,9 @@ public class OrdersController {
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OrderDto> update(
         @PathVariable("userId") Long userId,
-        @ApiParam("Id of the resource to be updated or created.")
+        @Parameter(description = "Id of the resource to be updated or created.")
         @PathVariable("id") Long id,
-        @ApiParam("JSON representation of the resource to be saved.")
+        @Parameter(description = "JSON representation of the resource to be saved.")
         @RequestBody @Valid OrderUpdateDto dto
     ) {
         this.validateCustomer(userId);
@@ -175,7 +177,7 @@ public class OrdersController {
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void delete(
         @PathVariable("userId") Long userId,
-        @ApiParam("Id of the resource to be deleted.")
+        @Parameter(description = "Id of the resource to be deleted.")
         @PathVariable("id") Long id
     ) throws ResponseStatusException {
         this.validateCustomer(userId);
@@ -199,7 +201,7 @@ public class OrdersController {
      * @param id The id of the item to checkout.
      * @throws ResponseStatusException If the informed item was not found.
      */
-    @ApiOperation("Checkout action.")
+    @Operation(description = "Checkout action.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
         @ApiResponse(responseCode = "404", description = "NOT_FOUND")
@@ -208,7 +210,7 @@ public class OrdersController {
     @GetMapping(value = "/{id}/checkout", produces = MediaType.APPLICATION_JSON_VALUE)
     public OrderDto checkout(
         @PathVariable("userId") Long userId,
-        @ApiParam("Id of the resource to be modified.")
+        @Parameter(description = "Id of the resource to be modified.")
         @PathVariable("id") Long id
     ) throws ResponseStatusException {
         this.validateCustomer(userId);

@@ -9,7 +9,8 @@ import com.smarthardwareshop.api.users.entities.Customer;
 import com.smarthardwareshop.api.users.entities.User;
 import com.smarthardwareshop.api.users.enums.Role;
 import com.smarthardwareshop.api.users.services.UsersService;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@Tag(name = "Users")
 public class UsersController {
 
     /**
@@ -89,7 +91,7 @@ public class UsersController {
     @SwaggerGetOne
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDto getOne(
-        @ApiParam("Id of the resource to be obtained.")
+        @Parameter(description = "Id of the resource to be obtained.")
         @PathVariable("id") Long id
     ) throws ResponseStatusException {
         return this.mapUserToUserDto(this.service.getOne(id).orElseThrow(
@@ -106,7 +108,7 @@ public class UsersController {
     @SwaggerSave
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDto save(
-        @ApiParam("JSON representation of the resource to be saved.")
+        @Parameter(description = "JSON representation of the resource to be saved.")
         @RequestBody @Valid UserSaveDto dto
     ) {
         Class<? extends User> userClass = Customer.class;
@@ -129,9 +131,9 @@ public class UsersController {
     @SwaggerUpdate
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> update(
-        @ApiParam("Id of the resource to be updated or created.")
+        @Parameter(description = "Id of the resource to be updated or created.")
         @PathVariable("id") Long id,
-        @ApiParam("JSON representation of the resource to be saved.")
+        @Parameter(description = "JSON representation of the resource to be saved.")
         @RequestBody @Valid UserUpdateDto dto
     ) {
         HttpStatus resultStatus = HttpStatus.OK;
@@ -156,7 +158,7 @@ public class UsersController {
     @SwaggerDelete
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void delete(
-        @ApiParam("Id of the resource to be deleted.")
+        @Parameter(description = "Id of the resource to be deleted.")
         @PathVariable("id") Long id
     ) throws ResponseStatusException {
         /*

@@ -1,6 +1,6 @@
 package com.smarthardwareshop.api.core.annotations;
 
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@ApiOperation("Updates an item (or creates it if it does not exist).")
+@Operation(description = "Updates an item (or creates it if it does not exist).")
 @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "OK"),
     @ApiResponse(responseCode = "201", description = "Created")

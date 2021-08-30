@@ -6,11 +6,12 @@ import com.smarthardwareshop.api.products.dto.ProductSaveDto;
 import com.smarthardwareshop.api.products.dto.ProductUpdateDto;
 import com.smarthardwareshop.api.products.entities.Product;
 import com.smarthardwareshop.api.products.services.ProductsService;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
+@Tag(name = "Products")
 public class ProductsController {
 
     /**
@@ -61,7 +63,7 @@ public class ProductsController {
     @SwaggerGetOne
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductDto getOne(
-        @ApiParam("Id of the resource to be obtained.")
+        @Param("Id of the resource to be obtained.")
         @PathVariable("id") Long id
     ) throws ResponseStatusException {
         return modelMapper.map(
@@ -81,7 +83,7 @@ public class ProductsController {
     @SwaggerSave
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductDto save(
-        @ApiParam("JSON representation of the resource to be saved.")
+        @Param("JSON representation of the resource to be saved.")
         @RequestBody @Valid ProductSaveDto dto
     ) {
         Product savedProduct = this.service.save(modelMapper.map(dto, Product.class));
@@ -98,9 +100,9 @@ public class ProductsController {
     @SwaggerUpdate
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductDto> update(
-        @ApiParam("Id of the resource to be updated or created.")
+        @Param("Id of the resource to be updated or created.")
         @PathVariable("id") Long id,
-        @ApiParam("JSON representation of the resource to be saved.")
+        @Param("JSON representation of the resource to be saved.")
         @RequestBody @Valid ProductUpdateDto dto
     ) {
         HttpStatus resultStatus = HttpStatus.OK;
@@ -124,7 +126,7 @@ public class ProductsController {
     @SwaggerDelete
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void delete(
-        @ApiParam("Id of the resource to be deleted.")
+        @Param("Id of the resource to be deleted.")
         @PathVariable("id") Long id
     ) throws ResponseStatusException {
         /*

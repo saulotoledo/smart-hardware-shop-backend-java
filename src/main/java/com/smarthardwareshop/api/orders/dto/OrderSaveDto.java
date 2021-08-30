@@ -1,6 +1,6 @@
 package com.smarthardwareshop.api.orders.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +19,6 @@ public class OrderSaveDto {
      * The order items.
      */
     @Valid
-    @ApiModelProperty
+    @Schema
     private List<OrderItemSaveDto> items = new ArrayList<>();
 }
