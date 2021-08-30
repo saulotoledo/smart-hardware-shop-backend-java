@@ -21,7 +21,7 @@ public class ProductSaveDto {
      */
     @NotEmpty
     @Size(min = 4, message = "The product name should have at least 4 characters")
-    @Schema(example = "John Doe")
+    @Schema(example = "Notebook XPTO 32GB RAM")
     private String name;
 
     /**
