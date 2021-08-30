@@ -10,13 +10,13 @@ import com.smarthardwareshop.api.orders.enums.OrderStatus;
 import com.smarthardwareshop.api.orders.services.OrdersService;
 import com.smarthardwareshop.api.products.entities.Product;
 import com.smarthardwareshop.api.products.services.ProductsService;
-import com.smarthardwareshop.api.users.entities.Admin;
 import com.smarthardwareshop.api.users.entities.User;
 import com.smarthardwareshop.api.users.services.UsersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -71,13 +71,12 @@ public class OrdersController {
      * @return A page of items.
      */
     @SwaggerGetMany
+    @Operation(description = "Returns many items.", security = @SecurityRequirement(name = "bearerAuth"))
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<OrderDto> getMany(
         @PathVariable("userId") Long userId,
         Pageable pageable
     ) {
-        this.validateCustomer(userId);
-
         Page<Order> ordersPage = this.ordersService.getMany(userId, pageable);
         return ordersPage.map(order -> modelMapper.map(order, OrderDto.class));
     }
@@ -91,14 +90,13 @@ public class OrdersController {
      * @throws ResponseStatusException If the informed item was not found.
      */
     @SwaggerGetOne
+    @Operation(description = "Returns a single item.", security = @SecurityRequirement(name = "bearerAuth"))
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public OrderDto getOne(
         @PathVariable("userId") Long userId,
         @Parameter(description = "Id of the resource to be obtained.")
         @PathVariable("id") Long id
     ) throws ResponseStatusException {
-        this.validateCustomer(userId);
-
         return modelMapper.map(
             this.ordersService.getOne(id, userId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The entity was not found")
@@ -122,8 +120,6 @@ public class OrdersController {
         @Parameter(description = "JSON representation of the resource to be saved.")
         @RequestBody @Valid OrderSaveDto dto
     ) throws ResponseStatusException {
-        this.validateCustomer(userId);
-
         Order orderToSave = this.convertOrderDtoToOrder(dto);
         orderToSave.setUser(this.getUserById(userId));
         Order savedOrder = this.ordersService.save(orderToSave);
@@ -148,8 +144,6 @@ public class OrdersController {
         @Parameter(description = "JSON representation of the resource to be saved.")
         @RequestBody @Valid OrderUpdateDto dto
     ) {
-        this.validateCustomer(userId);
-
         HttpStatus resultStatus = HttpStatus.OK;
 
         // TODO: Refactor behavior below by using ModelMapper.
@@ -180,8 +174,6 @@ public class OrdersController {
         @Parameter(description = "Id of the resource to be deleted.")
         @PathVariable("id") Long id
     ) throws ResponseStatusException {
-        this.validateCustomer(userId);
-
         /*
           The DELETE section of the RFC 7231 (https://tools.ietf.org/html/rfc7231#section-4.3.5)
           does not comment on what should be done if the resource was not found. Considering that
@@ -201,7 +193,7 @@ public class OrdersController {
      * @param id The id of the item to checkout.
      * @throws ResponseStatusException If the informed item was not found.
      */
-    @Operation(description = "Checkout action.")
+    @Operation(description = "Checkout action.", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "OK"),
         @ApiResponse(responseCode = "404", description = "NOT_FOUND")
@@ -213,8 +205,6 @@ public class OrdersController {
         @Parameter(description = "Id of the resource to be modified.")
         @PathVariable("id") Long id
     ) throws ResponseStatusException {
-        this.validateCustomer(userId);
-
         Order order = this.ordersService.getOne(id, userId).orElseThrow(
             () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The entity was not found")
         );
@@ -276,19 +266,5 @@ public class OrdersController {
         orderToSave.setStatus(OrderStatus.IN_PROGRESS);
 
         return orderToSave;
-    }
-
-    // TODO: The behavior is misplaced (an interceptor maybe?). We should refactor it when adding authorization support.
-    /**
-     * Validates whether the user is a customer.
-     *
-     * @param userId The id of the user.
-     * @throws ResponseStatusException If the user was not found.
-     */
-    private void validateCustomer(Long userId) throws ResponseStatusException {
-        User user = this.getUserById(userId);
-        if (user instanceof Admin) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Admins cannot have orders");
-        }
     }
 }

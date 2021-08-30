@@ -2,6 +2,7 @@ package com.smarthardwareshop.api.users.entities;
 
 import com.smarthardwareshop.api.core.entities.IdentifiableTraceableEntity;
 import com.smarthardwareshop.api.orders.entities.Order;
+import com.smarthardwareshop.api.users.enums.Role;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ import java.util.List;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
-public abstract @Data class User extends IdentifiableTraceableEntity {
+public @Data class User extends IdentifiableTraceableEntity {
 
     /**
      * The user's username.
@@ -40,4 +41,11 @@ public abstract @Data class User extends IdentifiableTraceableEntity {
      */
     @OneToMany(mappedBy = "user")
     private List<Order> items = new ArrayList<>();
+
+    /**
+     * Returns the user role.
+     *
+     * @return The user role.
+     */
+    public Role getRole() { return null; }
 }

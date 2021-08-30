@@ -1,20 +1,28 @@
 package com.smarthardwareshop.api.configuration;
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.GroupedOpenApi;
-import org.springdoc.core.SpringDocUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.time.LocalDateTime;
 
 /**
  * Swagger configuration.
  */
 @Configuration
+@SecurityScheme(
+    name = "bearerAuth",
+    type = SecuritySchemeType.HTTP,
+    in = SecuritySchemeIn.HEADER,
+    description = "Access token",
+    bearerFormat = "JWT",
+    scheme = "bearer"
+)
 @RequiredArgsConstructor
 public class SwaggerConfiguration {
 
@@ -22,11 +30,6 @@ public class SwaggerConfiguration {
      * OpenAPI information loaded from configuration files.
      */
     private final OpenApiInfo openAPIInfo;
-
-    static {
-        SpringDocUtils.getConfig()
-            .replaceWithClass(LocalDateTime.class, String.class);
-    }
 
     /**
      * Returns the main Swagger configuration.

@@ -2,6 +2,7 @@ package com.smarthardwareshop.api.users.controllers;
 
 import com.smarthardwareshop.api.core.annotations.*;
 import com.smarthardwareshop.api.users.dto.UserDto;
+import com.smarthardwareshop.api.users.dto.UserLoginDto;
 import com.smarthardwareshop.api.users.dto.UserSaveDto;
 import com.smarthardwareshop.api.users.dto.UserUpdateDto;
 import com.smarthardwareshop.api.users.entities.Admin;
@@ -9,7 +10,9 @@ import com.smarthardwareshop.api.users.entities.Customer;
 import com.smarthardwareshop.api.users.entities.User;
 import com.smarthardwareshop.api.users.enums.Role;
 import com.smarthardwareshop.api.users.services.UsersService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -56,6 +59,7 @@ public class UsersController {
      * @return A page of items.
      */
     @SwaggerGetMany
+    @Operation(description = "Returns many items.", security = @SecurityRequirement(name = "bearerAuth"))
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<UserDto> getMany(@RequestParam(required = false) String filter, Pageable pageable) {
         Page<User> usersPage = this.service.getMany(filter, pageable);
@@ -80,7 +84,6 @@ public class UsersController {
         return dto;
     }
 
-
     /**
      * Returns a single item.
      *
@@ -89,6 +92,7 @@ public class UsersController {
      * @throws ResponseStatusException If the informed item was not found.
      */
     @SwaggerGetOne
+    @Operation(description = "Returns a single item.", security = @SecurityRequirement(name = "bearerAuth"))
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDto getOne(
         @Parameter(description = "Id of the resource to be obtained.")
@@ -172,4 +176,31 @@ public class UsersController {
         }
         this.service.delete(id);
     }
+
+    /**
+     * Simulates the user registration for demonstration purposes.
+     *
+     * @param dto The DTO of the item to save.
+     * @return The saved item.
+     */
+    @SwaggerSave
+    @Operation(description = "Signup.", security = { })
+    @PostMapping(value = "/signup",produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDto signup(
+        @Parameter(description = "JSON representation of the resource to be saved.")
+        @RequestBody @Valid UserSaveDto dto
+    ) {
+        return this.save(dto);
+    }
+
+    /**
+     * Workaround to enable spring security login method into Swagger UI.
+     * The authentication filter will replace this method.
+     *
+     * @param dto The DTO of the item to save.
+     * @return
+     */
+    // TODO: investigate why springdoc.show-login-endpoint=true is not working
+    @PostMapping("/login")
+    public void login(@RequestBody @Valid UserLoginDto dto) {}
 }

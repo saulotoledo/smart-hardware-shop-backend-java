@@ -38,7 +38,7 @@ public class NewsSaveDto {
      */
     @NotNull
     @Future
-    @Schema(example = "2021-08-27T21:29:51.248Z")
+    @Schema(type = "string", format = "date-time", example = "2031-01-30T08:30:00Z")
     private LocalDateTime expiryDate;
 
     /**

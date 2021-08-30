@@ -25,6 +25,7 @@ spring:
         one-indexed-parameters: true
 
 springdoc:
+  show-login-endpoint: true
   swagger-ui:
     deepLinking: true
     displayOperationId: false
@@ -43,6 +44,10 @@ springdoc:
       - "put"
       - "post"
       - "delete"
+
+auth:
+  expiration_time: 500000
+  secret: sample_token_secret
 
 openapi:
   title: "Smart Hardware Shop"

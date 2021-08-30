@@ -1,7 +1,7 @@
 package com.smarthardwareshop.api.users.controllers;
 
-import com.smarthardwareshop.api.users.enums.Role;
 import com.smarthardwareshop.api.users.entities.User;
+import com.smarthardwareshop.api.users.enums.Role;
 import com.smarthardwareshop.api.users.services.UsersService;
 import com.smarthardwareshop.api.users.utils.UserGenerator;
 import org.junit.jupiter.api.Test;
@@ -15,8 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.*;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -38,16 +37,14 @@ class UsersControllerMvcTests {
     @MockBean
     private UsersService usersService;
 
+    @MockBean
+    private UserDetailsService userDetailsService;
+
     @TestConfiguration
     static class AdditionalConfig {
         @Bean
         public ModelMapper getModelMapper() {
             return new ModelMapper();
-        }
-
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-            return new BCryptPasswordEncoder();
         }
     }
 

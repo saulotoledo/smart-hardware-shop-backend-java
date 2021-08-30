@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.*;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ class NewsControllerMvcTests {
 
     @MockBean
     private NewsService newsService;
+
+    @MockBean
+    private UserDetailsService userDetailsService;
 
     @TestConfiguration
     static class AdditionalConfig {
