@@ -11,4 +11,22 @@ services:
       MYSQL_PASSWORD: '8b3b91c7'
       MYSQL_RANDOM_ROOT_PASSWORD: 'true'
     ports:
-    - '3306:3306'
+      - '3306:3306'
+    networks:
+      - smart-hardware-shop-network
+
+  smart-hardware-shop-app:
+    image: maven:3.8.2-jdk-11
+    container_name: 'smart-hardware-shop-app'
+    command: tail -F /dev/null
+    working_dir: /opt/app
+    volumes:
+      - ./:/opt/app
+    ports:
+      - '8080:8080'
+    networks:
+      - smart-hardware-shop-network
+
+networks:
+  smart-hardware-shop-network:
+    driver: bridge
