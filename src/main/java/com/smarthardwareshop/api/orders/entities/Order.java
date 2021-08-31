@@ -44,6 +44,6 @@ public @Data class Order extends IdentifiableEntity {
     /**
      * The order items.
      */
-    @OneToMany(cascade = { CascadeType.ALL }, mappedBy = "order")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
 }
