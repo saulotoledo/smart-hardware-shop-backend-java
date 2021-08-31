@@ -28,7 +28,7 @@ public @Data class OrderItem extends IdentifiableEntity {
     /**
      * The order items.
      */
-    @ManyToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @ManyToOne()
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
 }
